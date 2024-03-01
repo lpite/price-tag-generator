@@ -2,9 +2,11 @@ import create from 'solid-zustand'
 
 export type Store = {
   products: Product[],
+  smallPriceTags: boolean,
   addProduct: (p: Product) => void,
   changeProduct: <Tkey extends keyof Product>(i: number, k: Tkey, v: Product[Tkey]) => void,
-  removeProduct: (i: number) => void
+  removeProduct: (i: number) => void,
+  setSmallPriceTags: (s: boolean) => void
 }
 
 export type Product = {
@@ -17,10 +19,8 @@ export type Product = {
 
 export const useStore = create<Store>((set) => ({
   products: [],
+  smallPriceTags: false,
   addProduct: (product) => set((state) => {
-    console.log("addProduct", product);
-    console.dir("addProduct state", state);
-
     return {
 
       products: [...state.products, product]
@@ -30,9 +30,6 @@ export const useStore = create<Store>((set) => ({
     const newProducts = JSON.parse(JSON.stringify(state.products))
     const product = newProducts[i];
     product[k] = v;
-    console.log(i)
-    console.log("changeProduct", product);
-    console.log("changeProduct store", newProducts)
     return {
       products: newProducts
     }
@@ -43,5 +40,11 @@ export const useStore = create<Store>((set) => ({
     return ({
       products: newProducts
     })
+  }),
+  setSmallPriceTags: (s) => set(() => {
+    console.log(s)
+    return {
+      smallPriceTags: s
+    }
   })
 }))

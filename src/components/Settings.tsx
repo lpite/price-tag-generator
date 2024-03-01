@@ -2,7 +2,7 @@ export default function Settings() {
 
 	function changeProductsUrl() {
 		const prevValue = localStorage.getItem("productsUrl") || "";
-		const newValue = prompt("Новий юрл", prevValue) || ""
+		const newValue = prompt("Новий юрл", prevValue) || prevValue
 		localStorage.setItem("productsUrl", newValue);
 	}
 

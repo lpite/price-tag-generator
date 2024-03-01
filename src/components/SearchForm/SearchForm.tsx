@@ -8,8 +8,6 @@ export default function SearchForm() {
 	const [searchValue, setSearchValue] = createSignal("");
 	const [defaultType, setDefaultType] = createSignal("default")
 
-	// не уявляю як це робити
-	// idk
 	const onFormSubmit: JSX.EventHandlerUnion<
 		HTMLFormElement,
 		Event & {
@@ -19,7 +17,6 @@ export default function SearchForm() {
 		e.preventDefault();
 
 		const productsUrl = localStorage.getItem("productsUrl") || "";
-		// const token = localStorage.getItem("token") || "";
 
 		if (!productsUrl) {
 			alert("Немає юрлу");
@@ -33,11 +30,14 @@ export default function SearchForm() {
 				// "Access-Control-Allow-Origin": "*"
 			}
 		}).then(res => res.json()).catch(() => {});
-		console.log("p", product)
-		const d = defaultType()
-		store.addProduct({ ...product, type: d + "" });
+		if (product) {
+			const d = defaultType()
+			store.addProduct({ ...product, type: d + "" });
+			setSearchValue("");
+		} else {
+			alert("Такого товару ще немає (((")
+		}
 
-		setSearchValue("");
 		
 	}
 
@@ -52,8 +52,11 @@ export default function SearchForm() {
 			<select value={defaultType()} onChange={({ target }) => setDefaultType(target.value)} class="m-1 block py-0 px-2 rounded-md">
 				<option value="default">Стандарт</option>
 				<option value="simple">Вітрина</option>
-				<option value="small">Маленький</option>
 			</select>
+			<label class="flex items-center justify-center mx-2">
+				Маленькі
+				<input  onChange={() => store.setSmallPriceTags(!store.smallPriceTags)} type="checkbox" class="mx-2" />
+			</label>
 			<button class="m-1 rounded-md ring-gray-300 ring-1 px-5">search</button>
 		</form>
 	)

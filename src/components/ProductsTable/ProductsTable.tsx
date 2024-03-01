@@ -10,8 +10,7 @@ export default function ProductsTable() {
 		<div class="m-1 w-full">
 			<For each={store.products}>{(product, index) => (
 				<TableRow index={index()} {...product} />
-			)}</For>
-				
+			)}</For>	
 		</div>
 	)
 }
