@@ -22,14 +22,18 @@ export default function SearchForm() {
 			alert("Немає юрлу");
 		}
 
-		const { result: { data: { json: product } } } = await fetch(productsUrl.replace("%", searchValue), {
+		const product = await fetch(productsUrl.replace("%", searchValue), {
 			mode: "cors",
 			method: "GET",
 			headers: {
 				// "Authorization": token,
 				// "Access-Control-Allow-Origin": "*"
 			}
-		}).then(res => res.json()).catch(() => {});
+		})
+			.then(res => res.json())
+			.catch((err) => {
+				console.error(err)
+			});
 		if (product) {
 			const d = defaultType()
 			store.addProduct({ ...product, type: d + "" });
@@ -42,7 +46,7 @@ export default function SearchForm() {
 	}
 
 	return (
-		<form class="flex h-10" onSubmit={onFormSubmit}>
+		<form class="flex h-10 fixed top-0 start-0 end-50 bg-white" onSubmit={onFormSubmit}>
 			<input 
 				value={searchValue()} 
 				onInput={({ currentTarget }) => setSearchValue(currentTarget.value)} 
@@ -55,7 +59,7 @@ export default function SearchForm() {
 			</select>
 			<label class="flex items-center justify-center mx-2">
 				Маленькі
-				<input  onChange={() => store.setSmallPriceTags(!store.smallPriceTags)} type="checkbox" class="mx-2" />
+				<input onChange={() => store.setSmallPriceTags(!store.smallPriceTags)} type="checkbox" class="mx-2" />
 			</label>
 			<button class="m-1 rounded-md ring-gray-300 ring-1 px-5">search</button>
 		</form>

@@ -28,7 +28,6 @@ export default function TableRow(product: Product & { index: number }) {
 					<select class="p-1.5 mx-2 rounded-md" value={product.type} onChange={({ target }) => store.changeProduct(product.index, "type", target.value as any)}>
 						<option value="default">Стандарт</option>
 						<option value="simple">Вітрина</option>
-						<option value="small">Маленький</option>
 					</select>
 				</div>
 				<div>
